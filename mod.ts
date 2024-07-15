@@ -1,6 +1,6 @@
-import Alidns20150109, * as $Alidns20150109 from "npm:@alicloud/alidns20150109";
-import * as $OpenApi from "npm:@alicloud/openapi-client";
-import Logger from "https://deno.land/x/logger@v1.1.4/logger.ts";
+import Alidns20150109, * as $Alidns20150109 from "npm:@alicloud/alidns20150109@3.4.0";
+import * as $OpenApi from "npm:@alicloud/openapi-client@0.4.10";
+import Logger from "jsr:@deno-lib/logger@1.1.6";
 
 export type Config = {
   auth: {
@@ -58,14 +58,16 @@ export class DDns {
       const records = await this.getRecords(domainName);
 
       if (!records) {
-        logger.error(`未获取到${domainName}的解析记录`);
+        logger.error(`未获取到 ${domainName} 的解析记录`);
         continue;
       }
 
       for (const { name, type, ip } of RRs) {
         const res = this.getRecordInfo(records, name);
         if (!res) {
-          logger.error(`${domainName}的解析记录中未发现${name}`);
+          logger.error(
+            `${domainName} 的解析记录中未发现 ${name}.${domainName}`,
+          );
           continue;
         }
         const { recordId, value } = res;
